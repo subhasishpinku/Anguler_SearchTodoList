@@ -1,0 +1,70 @@
+<header class="jumbotron">
+ <h1 aling=""center>
+    |Welcome To TodoList-2023| 
+ </h1>
+</header>
+<article>
+  <section>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis dignissimos magni consectetur distinctio dolorum est eum officia deleniti autem quae iste obcaecati tempore rerum maiores nulla exercitationem neque, voluptate officiis?
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium quia quibusdam deleniti autem et? Tempore iusto maiores eum corporis aliquid repudiandae rem animi rerum itaque culpa dolores, in fugiat quisquam!
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis vero odio quo error atque et sapiente quod quasi ratione, provident nihil iusto a pariatur commodi suscipit. Architecto cumque ab alias.
+  </section>
+</article>
+<section class="float-right">
+  <strong style="color: deepskyblue;">{{loggedUser}}</strong>
+<button class="btn btn-sm-danger" (click)="logout()">LogOut</button>
+</section>
+<div class="row">
+    <div class="col-lg-7">
+      <header>
+        <h2>All Todo</h2>
+      </header>
+      <section class="form-group">
+        <!-- value: {{searchedTodo}} -->
+         <input class="form-control" type="text" [(ngModel)]="searchedTodo" placeholder="Searched Todos.......">
+      </section>
+      <table class="table table-hover table-bordered">
+        <tr>
+          <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created</th>
+        </tr>
+        <tr *ngFor="let todo of TodoList | Filter: searchedTodo | paginate:{
+                                           itemsPerPage: 4,
+                                           currentPage: startPage,
+                                           totalItems: totalTodos }">
+            <td><input type="radio" name="radio" (change)="select(todo)"></td>
+            <td>{{todo.title}}</td>
+            <td>{{todo.description}}</td>
+            <td>{{todo.created}}</td>
+        </tr>
+      </table>
+      <pagination-controls (pageChange)="startPage = $event"></pagination-controls>
+    </div>
+    <div class="col-lg-5">
+     <header>
+      <h2> Operation Performed</h2>
+     </header>
+     <form>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" [(ngModel)]="newTodo.title" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <!-- <input type="text" name="title" class="form-control" required> -->
+        <textarea name="desc" [(ngModel)]="newTodo.desc" class="form-control" id="" rows="6" required></textarea>
+      </div>
+      <div class="form-group">
+        <section *ngIf="selectedTodo.length==0">
+          <button class="btn btn-sm btn-outline-seccess" (click)="AddTodo()">ADD</button>
+        </section>
+        <section *ngIf="selectedTodo.length!=0">
+          <button class="btn btn-sm btn-outline-info" (click)="onUpdate()">UPDATE</button> |
+          <button class="btn btn-sm btn-outline-danger" (click)="onDelete()">DELETE</button>
+        </section>
+      </div>
+     </form>
+    </div>
+</div>
